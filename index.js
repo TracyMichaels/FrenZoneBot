@@ -81,168 +81,156 @@ client.on("message", msg => {
     }
 
     if (!msg.content.startsWith(prefix)) return;
-    var num;
-    var msgContents = msg.content.toLowerCase().trim().split(' ');
-    switch (msgContents[0]) {
-        //test***************************************************************************************************
-        case `${prefix}ping`:
-            msg.reply("stfu");
-            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-            break;
+    try {
 
-        //fun*****************************************************************************************************
-        //music player
-        case `${prefix}music`:
-            try {
-                const serverQueue = musicQueue.get(msg.guild.id);
-                switch (msgContents[1]) {
-                    case `play`:
-                        console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-                        execute(msg, serverQueue);
-                        msg.delete();
-                        break;
-                    case `skip`:
-                        console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-                        skip(msg, serverQueue);
-                        break;
-                    case `stop`:
-                        console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-                        stop(msg, serverQueue);
-                        break;
-                    default:
-                        msg.channel.send("invalid command");
-                }
-            } catch (e) {
-                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: music command failed`);
 
-            }
-            break;
-        //end fun
-
-        //Band utilities***********************************************************************************************
-        //roll a dice, can have parameter for number of sides, default is 6
-        case `${prefix}dice`:
-            if (msgContents.length > 1) {
-                num = rollDice(parseInt(msgContents[1]));
-            } else {
-                num = rollDice(6);
-            }
-            if (!isNaN(num)) {
-                msg.reply(`You rolled a ${num}`);
+        var num;
+        var msgContents = msg.content.toLowerCase().trim().split(' ');
+        switch (msgContents[0]) {
+            //test***************************************************************************************************
+            case `${prefix}ping`:
+                msg.reply("stfu");
                 console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-            } else {
-                msg.reply('Invalid command: use \"!dice \\d?\" default is 6');
-            }
-            break;
-
-        //arbiter method
-        case `${prefix}arbiter`:
-            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-            var numCards = 1
-            if (msgContents.length > 1) {
-                numCards = Math.abs(parseInt(msgContents[1]));
-            }
-            var temp = "";
-            if (!isNaN(numCards)) {
-                for (let i = 0; i < numCards; i++) {
-                    temp += cardList[Math.floor(Math.random() * cardList.length)];
-                }
-            } else if (msgContents[1] === 'key') {
-                msg.channel.send(`${fs.readFileSync('./arbiter_key.txt')}`);
                 break;
-            } else {
-                msg.channel.send("invalid parameter");
-                break;
-            }
-            msg.channel.send(temp);
-            break;
 
-        //lyric tools
-        //rhymes
-        case `${prefix}rhyme`:
-            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-            if (msgContents.length > 1) {
-                rhyme(function (r) {
-                    var rhymes = r.rhyme(msgContents[1]).join(' ').toLowerCase();
-                    if (rhymes === "") {
-                        msg.channel.send("(undefined)");
-                        return;
+            //fun*****************************************************************************************************
+            //music player
+            case `${prefix}music`:
+                try {
+                    const serverQueue = musicQueue.get(msg.guild.id);
+                    switch (msgContents[1]) {
+                        case `play`:
+                            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                            execute(msg, serverQueue);
+                            msg.delete();
+                            break;
+                        case `skip`:
+                            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                            skip(msg, serverQueue);
+                            break;
+                        case `stop`:
+                            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                            stop(msg, serverQueue);
+                            break;
+                        default:
+                            msg.channel.send("invalid command");
                     }
-                    msg.channel.send(rhymes);
-                });
-            } else {
-                msg.channel.send("invalid parameter");
-            }
-            break;
-        //synonyms
-        case `${prefix}synonym`:
-            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-            if (msgContents.length > 1) {
-                try {
-                    var nouns = synonyms(msgContents[1], "n").join(' ');
                 } catch (e) {
-                    nouns = "(undefined)";
+                    console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: music command failed`);
+
                 }
-                try {
-                    var verbs = synonyms(msgContents[1], "v").join(' ');
-                } catch (e) {
-                    verbs = "(undefined)";
+                break;
+            //end fun
+
+            //Band utilities***********************************************************************************************
+            //roll a dice, can have parameter for number of sides, default is 6
+            case `${prefix}dice`:
+                if (msgContents.length > 1) {
+                    num = rollDice(parseInt(msgContents[1]));
+                } else {
+                    num = rollDice(6);
                 }
-                msg.channel.send(`nouns: ${nouns}\nverbs: ${verbs}`);
-            } else {
-                msg.channel.send("needs a parameter");
-            }
-            break;
-        //antonyms ***DOES NOT WORK***
-        case `${prefix}antonym`:
-            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-            if (msgContents.length > 1) {
-                try {
-                    console.log(tcom.search(msgContents[1]).antonyms.join(' '));
-                } catch (e) {
-                    console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: antonym failed`);
+                if (!isNaN(num)) {
+                    if (num === 1) {
+                        msg.reply(`You rolled a ${num}, you really fuckin beefed it man`);;
+                    } else {
+                        msg.reply(`You rolled a ${num}`);
+                    }
+                    console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                } else {
+                    msg.reply('Invalid command: use \"!dice \\d?\" default is 6');
                 }
-            }
-            break;
-        // end utilities
+                break;
 
-        //pastas********************************************************************************
-        //TODO rework to !pasta <name>
-        //message the navy seal copy posta
-        case `${prefix}sealpasta`:
-            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-            msg.channel.send(`${fs.readFileSync('./navyseal.txt')}`);
-            break;
+            //lyric tools
+            //rhymes
+            case `${prefix}rhyme`:
+                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                if (msgContents.length > 1) {
+                    rhyme(function (r) {
+                        var rhymes = r.rhyme(msgContents[1]).join(' ').toLowerCase();
+                        if (rhymes === "") {
+                            msg.channel.send("(undefined)");
+                            return;
+                        }
+                        msg.channel.send(rhymes);
+                    });
+                } else {
+                    msg.channel.send("invalid parameter");
+                }
+                break;
+            //synonyms
+            case `${prefix}synonym`:
+                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                if (msgContents.length > 1) {
+                    try {
+                        var nouns = synonyms(msgContents[1], "n").join(' ');
+                    } catch (e) {
+                        nouns = "(undefined)";
+                    }
+                    try {
+                        var verbs = synonyms(msgContents[1], "v").join(' ');
+                    } catch (e) {
+                        verbs = "(undefined)";
+                    }
+                    msg.channel.send(`nouns: ${nouns}\nverbs: ${verbs}`);
+                } else {
+                    msg.channel.send("needs a parameter");
+                }
+                break;
+            //antonyms ***DOES NOT WORK***
+            case `${prefix}antonym`:
+                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                if (msgContents.length > 1) {
+                    try {
+                        console.log(tcom.search(msgContents[1]).antonyms.join(' '));
+                    } catch (e) {
+                        console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: antonym failed`);
+                    }
+                }
+                break;
+            // end utilities
 
-        case `${prefix}rmpasta`:
-            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-            msg.channel.send(`${fs.readFileSync('./rmpasta.txt')}`);
-            break;
+            //pastas********************************************************************************
+            //TODO rework to !pasta <name>
+            //message the navy seal copy posta
+            case `${prefix}sealpasta`:
+                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                msg.channel.send(`${fs.readFileSync('./navyseal.txt')}`);
+                break;
 
-        case `${prefix}fgpasta`:
-            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-            msg.channel.send(`${fs.readFileSync('./fgpasta.txt')}`);
-            break;
+            case `${prefix}rmpasta`:
+                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                msg.channel.send(`${fs.readFileSync('./rmpasta.txt')}`);
+                break;
 
-        case `${prefix}daddypasta`:
-            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-            msg.channel.send(`${fs.readFileSync('./daddypasta.txt')}`);
-            break;
-        //speak the navy seal copy pasta
-        case `${prefix}saysealpasta`:
-            msg.channel.send(`${fs.readFileSync('./navyseal.txt')}`, { tts: true });
-            break;
-        //end pastas
+            case `${prefix}fgpasta`:
+                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                msg.channel.send(`${fs.readFileSync('./fgpasta.txt')}`);
+                break;
 
-        //meta********************************************************************
-        //TODO add meta info
-        //end meta
+            case `${prefix}daddypasta`:
+                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                msg.channel.send(`${fs.readFileSync('./daddypasta.txt')}`);
+                break;
+            //speak the navy seal copy pasta
+            case `${prefix}saysealpasta`:
+                msg.channel.send(`${fs.readFileSync('./navyseal.txt')}`, { tts: true });
+                break;
+            //end pastas
 
-        //close bot if being too annoying
-        case `${prefix}fuckoff`:
-            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-            msg.channel.send("k bye");
-            process.exit();
+            //meta********************************************************************
+            //TODO add meta info
+            //end meta
+
+            //close bot if being too annoying
+            case `${prefix}fuckoff`:
+                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                msg.channel.send("k bye");
+                process.exit();
+        }
+    } catch (e) {
+        console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: failed to execute ${msgContents[0]}`);
     }
 });
 
