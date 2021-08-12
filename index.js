@@ -194,25 +194,31 @@ client.on("message", msg => {
             //pastas********************************************************************************
             //TODO rework to !pasta <name>
             //message the navy seal copy posta
-            case `${prefix}sealpasta`:
-                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-                msg.channel.send(`${fs.readFileSync('./navyseal.txt')}`);
+            case `${prefix}pasta`:
+                if (msgContents.length < 2) {
+                    msg.channel.send("missing argument");
+                    break;
+                }
+                switch (msgContents[1]) {
+                    case `seal`:
+                        console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                        msg.channel.send(`${fs.readFileSync('./navyseal.txt')}`);
+                        break;
+                    case `rickandmorty`:
+                        console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                        msg.channel.send(`${fs.readFileSync('./rmpasta.txt')}`);
+                        break;
+                    case `familyguy`:
+                        console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                        msg.channel.send(`${fs.readFileSync('./fgpasta.txt')}`);
+                        break;
+                    case `daddy`:
+                        console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                        msg.channel.send(`${fs.readFileSync('./daddypasta.txt')}`);
+                        break;
+                }
                 break;
 
-            case `${prefix}rmpasta`:
-                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-                msg.channel.send(`${fs.readFileSync('./rmpasta.txt')}`);
-                break;
-
-            case `${prefix}fgpasta`:
-                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-                msg.channel.send(`${fs.readFileSync('./fgpasta.txt')}`);
-                break;
-
-            case `${prefix}daddypasta`:
-                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
-                msg.channel.send(`${fs.readFileSync('./daddypasta.txt')}`);
-                break;
             //speak the navy seal copy pasta
             case `${prefix}saysealpasta`:
                 msg.channel.send(`${fs.readFileSync('./navyseal.txt')}`, { tts: true });
