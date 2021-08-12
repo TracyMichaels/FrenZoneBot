@@ -114,7 +114,7 @@ client.on("message", msg => {
                 }
             } catch (e) {
                 console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: music command failed`);
-                
+
             }
             break;
         //end fun
