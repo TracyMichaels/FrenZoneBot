@@ -200,7 +200,7 @@ client.on("message", msg => {
                     break;
                 }
                 switch (msgContents[1]) {
-                    case `seal`:
+                    case `navyseal`:
                         console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
                         msg.channel.send(`${fs.readFileSync('./navyseal.txt')}`);
                         break;
@@ -215,6 +215,11 @@ client.on("message", msg => {
                     case `daddy`:
                         console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
                         msg.channel.send(`${fs.readFileSync('./daddypasta.txt')}`);
+                        break;
+                    case `gnu`:
+                    case `linux`:
+                        console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                        msg.channel.send(`${fs.readFileSync('./GNULinuxpasta.txt')}`);
                         break;
                 }
                 break;
