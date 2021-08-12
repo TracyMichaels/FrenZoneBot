@@ -82,8 +82,6 @@ client.on("message", msg => {
 
     if (!msg.content.startsWith(prefix)) return;
     try {
-
-
         var num;
         var msgContents = msg.content.toLowerCase().trim().split(' ');
         switch (msgContents[0]) {
@@ -232,6 +230,11 @@ client.on("message", msg => {
 
             //meta********************************************************************
             //TODO add meta info
+            // list all available commmands
+            case `${prefix}commands`:
+                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                msg.channel.send(`${fs.readFileSync('./commands.txt')}`);
+                break;
             //end meta
 
             //close bot if being too annoying
