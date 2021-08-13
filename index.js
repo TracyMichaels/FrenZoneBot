@@ -158,7 +158,7 @@ client.on("message", msg => {
                 }
                 break;
             //synonyms
-            case `${prefix}synonym`:
+            case `${prefix}synonyms`:
                 console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
                 if (msgContents.length > 1) {
                     try {
