@@ -23,6 +23,8 @@ const {
 } = require('./config.json');
 const emojiList = require('./emojiList.json');
 const cardList = require('./cards.json');
+const goodList = require('./goodbotemoticon.json');
+const badList = require('./badbot.json');
 const reactionMIN = 5;
 const reactionMAX = 15;
 const sarcasticMIN = 50;
@@ -48,7 +50,7 @@ client.on("message", msg => {
         console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: log failed`);
     }
 
-    //reacts skull emoji on "I forgor"
+    // reacts skull emoji on "I forgor"
     if (msg.content.toLowerCase().match(new RegExp("i forgor")) != null) msg.react('💀');
     // reaccts angry if someone says they/jake is allergic
     if (msg.content.toLowerCase().match(/(i[' a]*m|jake['s]*( is)?) allergic/) != null) msg.react(msg.guild.emojis.cache.find(emoji => emoji.name === "angery"));
@@ -58,6 +60,10 @@ client.on("message", msg => {
     if (msg.content.toLowerCase().match(/\w+\d*-ass \w+\d*/)) msg.reply(`What's an ass-${msg.content.toLowerCase().match(/\w+-ass \w+/)[0].split(' ')[1]}?`);
     // reacts obama prism animated emoji on "obama"
     if (msg.content.toLowerCase().match(/obama/)) msg.react(msg.guild.emojis.cache.find(emoji => emoji.name === "ObamaPrismgif"));
+    // react to praise
+    if (msg.content.toLowerCase().match(/good bot/)) msg.channel.send(goodList[Math.floor(Math.random() * goodList.length)]);
+    // react to neg
+    if (msg.content.toLowerCase().match(/bad bot/)) msg.channel.send(badList[Math.floor(Math.random() * badList.length)]);
 
     //return if not in approved non-serious channels, only during initial building and testing
     //if (msg.channel.name != "grill-n-chill" && msg.channel.name != 'bot-sandbox' && msg.channel.name != "bot-feature-requests") return;
@@ -77,9 +83,10 @@ client.on("message", msg => {
             } catch (e) {
                 console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: sarcastic failed`);
             }
+            messageCounter = 0;
+            sarcasticThreshold = getRandomIntInclusive(sarcasticMIN, sarcasticMAX);
         }
-        messageCounter = 0;
-        sarcasticThreshold = getRandomIntInclusive(sarcasticMIN, sarcasticMAX);
+        messageCounter--;
     }
 
     //react randomly to a message with custom emoji
