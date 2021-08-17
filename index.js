@@ -50,8 +50,14 @@ client.on("message", msg => {
 
     //reacts skull emoji on "I forgor"
     if (msg.content.toLowerCase().match(new RegExp("i forgor")) != null) msg.react('💀');
-    if (msg.content.toLowerCase().match(/[i'?m | i am | jake('s)? (is)?] allergic/) != null) msg.react('😠');
+    // reaccts angry if someone says they/jake is allergic
+    if (msg.content.toLowerCase().match(/(i[' a]*m|jake['s]*( is)?) allergic/) != null) msg.react(msg.guild.emojis.cache.find(emoji => emoji.name === "angery"));
+    // reacts nicecock emoji to penis/benis
+    if (msg.content.toLowerCase().match(/(p|b)enis/)) msg.react(msg.guild.emojis.cache.find(emoji => emoji.name === "NiceCock"));
+    // xkcd hyphen
     if (msg.content.toLowerCase().match(/\w+\d*-ass \w+\d*/)) msg.reply(`What's an ass-${msg.content.toLowerCase().match(/\w+-ass \w+/)[0].split(' ')[1]}?`);
+    // reacts obama prism animated emoji on "obama"
+    if (msg.content.toLowerCase().match(/obama/)) msg.react(msg.guild.emojis.cache.find(emoji => emoji.name === "ObamaPrismgif"));
 
     //return if not in approved non-serious channels, only during initial building and testing
     //if (msg.channel.name != "grill-n-chill" && msg.channel.name != 'bot-sandbox' && msg.channel.name != "bot-feature-requests") return;
@@ -64,11 +70,13 @@ client.on("message", msg => {
     //console.log("Reaction Threshold: " + reactionThreshold);
 
     //reply with a sarcastic comment
-    if (messageCounter === sarcasticThreshold && msg.channel.name != "serious-zone") {
-        try {
-            msg.reply(sarcasticComment(msg.content));
-        } catch (e) {
-            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: sarcastic failed`);
+    if (messageCounter === sarcasticThreshold) {
+        if (msg.channel.name != "serious-zone") {
+            try {
+                msg.reply(sarcasticComment(msg.content));
+            } catch (e) {
+                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: sarcastic failed`);
+            }
         }
         messageCounter = 0;
         sarcasticThreshold = getRandomIntInclusive(sarcasticMIN, sarcasticMAX);
@@ -374,6 +382,5 @@ function play(guild, song) {
 /**********************************************************************************************
  * end music player
  **********************************************************************************************/
-
 
 client.login(token);
