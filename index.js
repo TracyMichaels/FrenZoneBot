@@ -25,7 +25,7 @@ const emojiList = require('./emojiList.json');
 const cardList = require('./cards.json');
 const reactionMIN = 5;
 const reactionMAX = 15;
-const sarcasticMIN = 20;
+const sarcasticMIN = 50;
 const sarcasticMAX = 100;
 const musicQueue = new Map();
 var messageCounter = 0;
@@ -50,8 +50,8 @@ client.on("message", msg => {
 
     //reacts skull emoji on "I forgor"
     if (msg.content.toLowerCase().match(new RegExp("i forgor")) != null) msg.react('💀');
-    if (msg.content.toLowerCase().match(/i'?m allergic/) != null) msg.react('😠');
-    if (msg.content.toLowerCase().match(/\w+-ass \w+/)) msg.reply(`What's an ass-${msg.content.toLowerCase().match(/\w+-ass \w+/)[0].split(' ')[1]}`);
+    if (msg.content.toLowerCase().match(/[i'?m | i am | jake('s)? (is)?] allergic/) != null) msg.react('😠');
+    if (msg.content.toLowerCase().match(/\w+\d*-ass \w+\d*/)) msg.reply(`What's an ass-${msg.content.toLowerCase().match(/\w+-ass \w+/)[0].split(' ')[1]}?`);
 
     //return if not in approved non-serious channels, only during initial building and testing
     //if (msg.channel.name != "grill-n-chill" && msg.channel.name != 'bot-sandbox' && msg.channel.name != "bot-feature-requests") return;
