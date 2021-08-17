@@ -50,26 +50,31 @@ client.on("message", msg => {
 
     //reacts skull emoji on "I forgor"
     if (msg.content.toLowerCase().match(new RegExp("i forgor")) != null) msg.react('💀');
+    if (msg.content.toLowerCase().match(/i'?m allergic/) != null) msg.react('😠');
+    if (msg.content.toLowerCase().match(/\w+-ass \w+/)) msg.reply(`What's an ass-${msg.content.toLowerCase().match(/\w+-ass \w+/)[0].split(' ')[1]}`);
 
     //return if not in approved non-serious channels, only during initial building and testing
     //if (msg.channel.name != "grill-n-chill" && msg.channel.name != 'bot-sandbox' && msg.channel.name != "bot-feature-requests") return;
 
-    // messageCounter++;
+    messageCounter++;
     reactionCounter++;
     // console.log("Message Counter: " + messageCounter);
     //console.log("Reaction Counter: " + reactionCounter);
     // console.log("Sarcastic Threshold: " + sarcasticThreshold);
     //console.log("Reaction Threshold: " + reactionThreshold);
 
-    // //reply with a sarcastic comment
-    // if (messageCounter === sarcasticThreshold) {
-    //     msg.reply(sarcasticComment(msg.content));
-    //     messageCounter = 0;
-    //     sarcasticThreshold = getRandomIntInclusive(sarcasticMIN, sarcasticMAX);
-    // }
+    //reply with a sarcastic comment
+    if (messageCounter === sarcasticThreshold && msg.channel.name != "serious-zone") {
+        try {
+            msg.reply(sarcasticComment(msg.content));
+        } catch (e) {
+            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: sarcastic failed`);
+        }
+        messageCounter = 0;
+        sarcasticThreshold = getRandomIntInclusive(sarcasticMIN, sarcasticMAX);
+    }
 
     //react randomly to a message with custom emoji
-
     if (reactionCounter === reactionThreshold) {
         try {
             msg.react(msg.guild.emojis.cache.find(emoji => emoji.name === emojiList[Math.floor(Math.random() * emojiList.length)]));
