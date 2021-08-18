@@ -66,7 +66,7 @@ client.on("message", msg => {
     if (msg.content.toLowerCase().match(/bad (fren)?bo[ty]/)) msg.channel.send(badList[Math.floor(Math.random() * badList.length)]);
 
     //return if not in approved non-serious channels, only during initial building and testing
-    //if (msg.channel.name != "grill-n-chill" && msg.channel.name != 'bot-sandbox' && msg.channel.name != "bot-feature-requests") return;
+    if (msg.channel.name === "serious-zone") return;
 
     messageCounter++;
     reactionCounter++;
@@ -77,16 +77,13 @@ client.on("message", msg => {
 
     //reply with a sarcastic comment
     if (messageCounter === sarcasticThreshold) {
-        if (msg.channel.name != "serious-zone") {
-            try {
-                msg.reply(`${sarcasticComment(msg.content)} ${msg.guild.emojis.cache.find(emoji => emoji.name === "spongebobmock")}`);
-            } catch (e) {
-                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: sarcastic failed`);
-            }
-            messageCounter = 0;
-            sarcasticThreshold = getRandomIntInclusive(sarcasticMIN, sarcasticMAX);
+        try {
+            msg.reply(`${sarcasticComment(msg.content)} ${msg.guild.emojis.cache.find(emoji => emoji.name === "spongebobmock")}`);
+        } catch (e) {
+            console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: sarcastic failed`);
         }
-        messageCounter--;
+        messageCounter = 0;
+        sarcasticThreshold = getRandomIntInclusive(sarcasticMIN, sarcasticMAX);
     }
 
     //react randomly to a message with custom emoji
