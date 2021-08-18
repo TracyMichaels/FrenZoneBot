@@ -255,6 +255,10 @@ client.on("message", msg => {
                 console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
                 msg.channel.send(`${fs.readFileSync('./commands.txt')}`);
                 break;
+
+            case `${prefix}source`:
+                msg.channel.send(`take a look inside me daddy uWu\nhttps://github.com/TracyMichaels/FrenZoneBot\n`, { files: ['./sourcecode.jpg'] }).then(m => { m.suppressEmbeds(true) });
+                break;
             //end meta
 
             //close bot if being too annoying
