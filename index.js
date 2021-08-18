@@ -43,12 +43,15 @@ client.on("ready", () => {
 client.on("message", msg => {
     //ignore messages from bot
     if (msg.author.bot) return;
+
     //activity log
     try {
         console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag} sent a message to ${msg.channel.name}`);
     } catch (e) {
         console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: log failed`);
     }
+    //return if not in approved non-serious channels, only during initial building and testing
+    if (msg.channel.name === "serious-zone") return;
 
     // reacts skull emoji on "I forgor"
     if (msg.content.toLowerCase().match(new RegExp("i forgor")) != null) msg.react('💀');
@@ -65,8 +68,7 @@ client.on("message", msg => {
     // react to neg
     if (msg.content.toLowerCase().match(/bad (fren)?bo[ty]/)) msg.channel.send(badList[Math.floor(Math.random() * badList.length)]);
 
-    //return if not in approved non-serious channels, only during initial building and testing
-    if (msg.channel.name === "serious-zone") return;
+
 
     messageCounter++;
     reactionCounter++;
@@ -252,9 +254,14 @@ client.on("message", msg => {
                 console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
                 msg.channel.send(`${fs.readFileSync('./commands.txt')}`);
                 break;
-
+            // send link to source code
             case `${prefix}source`:
                 msg.channel.send(`take a look inside me daddy uWu\nhttps://github.com/TracyMichaels/FrenZoneBot\n`, { files: ['./sourcecode.jpg'] }).then(m => { m.suppressEmbeds(true) });
+                break;
+
+            // display info about author
+            case `${prefix}author`:
+                msg.channel.send(`my daddy is @TracyMichaels <3`);
                 break;
             //end meta
 
