@@ -61,9 +61,9 @@ client.on("message", msg => {
     // reacts obama prism animated emoji on "obama"
     if (msg.content.toLowerCase().match(/obama/)) msg.react(msg.guild.emojis.cache.find(emoji => emoji.name === "ObamaPrismgif"));
     // react to praise
-    if (msg.content.toLowerCase().match(/good bot/)) msg.channel.send(goodList[Math.floor(Math.random() * goodList.length)]);
+    if (msg.content.toLowerCase().match(/good (fren)?bo[ty]/)) msg.channel.send(goodList[Math.floor(Math.random() * goodList.length)]);
     // react to neg
-    if (msg.content.toLowerCase().match(/bad bot/)) msg.channel.send(badList[Math.floor(Math.random() * badList.length)]);
+    if (msg.content.toLowerCase().match(/bad (fren)?bo[ty]/)) msg.channel.send(badList[Math.floor(Math.random() * badList.length)]);
 
     //return if not in approved non-serious channels, only during initial building and testing
     //if (msg.channel.name != "grill-n-chill" && msg.channel.name != 'bot-sandbox' && msg.channel.name != "bot-feature-requests") return;
@@ -79,7 +79,7 @@ client.on("message", msg => {
     if (messageCounter === sarcasticThreshold) {
         if (msg.channel.name != "serious-zone") {
             try {
-                msg.reply(sarcasticComment(msg.content));
+                msg.reply(`${sarcasticComment(msg.content)} ${msg.guild.emojis.cache.find(emoji => emoji.name === "spongebobmock")}`);
             } catch (e) {
                 console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: sarcastic failed`);
             }
