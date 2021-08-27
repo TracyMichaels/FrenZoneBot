@@ -67,6 +67,8 @@ client.on("message", msg => {
     if (msg.content.toLowerCase().match(/good (fren)?bo[ty]/)) msg.channel.send(goodList[Math.floor(Math.random() * goodList.length)]);
     // react to neg
     if (msg.content.toLowerCase().match(/bad (fren)?bo[ty]/)) msg.channel.send(badList[Math.floor(Math.random() * badList.length)]);
+    // react to send nudes
+    if (msg.content.toLowerCase().match(/send nu?(o)*de?s*/)) msg.channel.send("u first :3");
 
 
 
@@ -134,7 +136,6 @@ client.on("message", msg => {
                     }
                 } catch (e) {
                     console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: music command failed`);
-
                 }
                 break;
             //end fun
