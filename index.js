@@ -68,7 +68,7 @@ client.on("message", msg => {
     // react to neg
     if (msg.content.toLowerCase().match(/bad (fren)?bo[ty]/)) msg.channel.send(badList[Math.floor(Math.random() * badList.length)]);
     // react to send nudes
-    if (msg.content.toLowerCase().match(/send nu?(o)*de?s*/)) msg.channel.send("u first :3");
+    if (msg.content.toLowerCase().match(/send n(u|o*)dl?e?s*/)) msg.channel.send("u first :3");
 
 
 
