@@ -55,7 +55,7 @@ client.on("message", msg => {
 
     // reacts skull emoji on "I forgor"
     if (msg.content.toLowerCase().match(new RegExp("i forgor")) != null) msg.react('💀');
-    if (msg.content.toLowerCase().match(/i forgot/)) msg.channel.send("I forgor*");
+    if (msg.content.toLowerCase().match(/i forgot/)) msg.channel.send("I forgor* 💀");
     // reaccts angry if someone says they/jake is allergic
     if (msg.content.toLowerCase().match(/(i[' a]*m|jake['s]*( is)?) allergic/) != null) msg.react(msg.guild.emojis.cache.find(emoji => emoji.name === "angery"));
     // reacts nicecock emoji to penis/benis
@@ -70,6 +70,8 @@ client.on("message", msg => {
     if (msg.content.toLowerCase().match(/bad (fren)?bo[ty]/)) msg.channel.send(badList[Math.floor(Math.random() * badList.length)]);
     // react to send nudes
     if (msg.content.toLowerCase().match(/send( some|me( some)?)? n(u*|o*)dl?e?s*/)) msg.channel.send("u first :3");
+    // react to Linux
+    if (msg.content.toLowerCase().match(/linux/)) msg.channel.send("I use Arch btw");
 
 
 
