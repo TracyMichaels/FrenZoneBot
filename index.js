@@ -176,6 +176,8 @@ client.on("message", msg => {
                 if (!isNaN(num)) {
                     if (num === 1) {
                         msg.reply(`You rolled a ${num}, you really fuckin beefed it man`);;
+                    } else if (num === 69) {
+                        msg.reply(`You rolled a ${num}, nice`);
                     } else {
                         msg.reply(`You rolled a ${num}`);
                     }
