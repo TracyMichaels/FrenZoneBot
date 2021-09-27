@@ -7,6 +7,7 @@ const rhyme = require('rhyme');
 const synonyms = require('synonyms');
 const tcom = require('thesaurus-dom');
 const date = require('date-and-time');
+var _ = require('lodash');
 
 /********************************************************************
  * This bot was created for the Discord server of FrenZone
@@ -65,15 +66,18 @@ client.on("message", msg => {
     // reacts obama prism animated emoji on "obama"
     if (msg.content.toLowerCase().match(/obama/)) msg.react(msg.guild.emojis.cache.find(emoji => emoji.name === "ObamaPrismgif"));
     // react to praise
-    if (msg.content.toLowerCase().match(/good (fren)?bo[ty]/)) msg.channel.send(goodList[Math.floor(Math.random() * goodList.length)]);
+    // if (msg.content.toLowerCase().match(/good (fren)?bo[ty]/)) msg.channel.send(goodList[Math.floor(Math.random() * goodList.length)]);
+    if (msg.content.toLowerCase().match(/good *(fren)?bu?o?[tyd]/)) msg.channel.send(_.sample(goodList));
     // react to neg
-    if (msg.content.toLowerCase().match(/bad (fren)?bo[ty]/)) msg.channel.send(badList[Math.floor(Math.random() * badList.length)]);
+    if (msg.content.toLowerCase().match(/bad *(fren)?bu?o?[tyd]/)) msg.channel.send(badList[Math.floor(Math.random() * badList.length)]);
     // react to send nudes
     if (msg.content.toLowerCase().match(/send( some|me( some)?)? n(u*|o*)dl?e?s*/)) msg.channel.send("u first :3");
     // react to Linux
     if (msg.content.toLowerCase().match(/linux/)) msg.channel.send("I use Arch btw");
     // 836
     if (msg.content.toLowerCase().match(/what time/)) msg.channel.send("8:36");
+    // irc gold standard of the 90s
+    if (msg.content.toLowerCase().match(/a\/?s\/?l/)) msg.channel.send("18/f/cali u?");
 
 
     messageCounter++;
@@ -107,7 +111,7 @@ client.on("message", msg => {
 
     if (!msg.content.startsWith(prefix)) return;
     try {
-        var num;
+        var num = 0;
         var msgContents = msg.content.toLowerCase().trim().split(' ');
         switch (msgContents[0]) {
             //test***************************************************************************************************
@@ -148,7 +152,23 @@ client.on("message", msg => {
             //roll a dice, can have parameter for number of sides, default is 6
             case `${prefix}dice`:
                 if (msgContents.length > 1) {
-                    num = rollDice(parseInt(msgContents[1]));
+                    if (msgContents[1].toLowerCase().match(/\b(\d+d\d+\+\d+)\b/)) {
+                        var arr = msgContents[1].split(/[d\+]+/);
+                        for (i = 0; i < parseInt(arr[0]); i++){
+                            num += rollDice(parseInt(arr[1]));
+                        }
+                        num += parseInt(arr[2]);
+                    } else if (msgContents[1].toLowerCase().match(/\b(d?\d+\+\d+)\b/)) {
+                        var arr = msgContents[1].split(/[\+]+/);
+                        num = (rollDice(parseInt(arr[0]))) + parseInt(arr[1]);
+                    } else if (msgContents[1].toLowerCase().match(/\b(\d+d\d+)\b/)) {
+                        var arr = msgContents[1].split(/[d]+/);
+                        for (i = 0; i < parseInt(arr[0]); i++){
+                            num += rollDice(parseInt(arr[1]));
+                        }
+                    } else {
+                        num = rollDice(parseInt(msgContents[1]));
+                    }
                 } else {
                     num = rollDice(6);
                 }
@@ -160,7 +180,7 @@ client.on("message", msg => {
                     }
                     console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
                 } else {
-                    msg.reply('Invalid command: use \"!dice \\d?\" default is 6');
+                    msg.reply('Invalid command: use \"!dice (\\d+d)?\\d+(+\\d+)?)?\"');
                 }
                 break;
 
@@ -182,6 +202,7 @@ client.on("message", msg => {
                 }
                 break;
             //synonyms
+            case `${prefix}synonym`:
             case `${prefix}synonyms`:
                 console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
                 if (msgContents.length > 1) {
