@@ -151,6 +151,7 @@ client.on("message", msg => {
             //Band utilities***********************************************************************************************
             //roll a dice, can have parameter for number of sides, default is 6
             case `${prefix}dice`:
+            case `${prefix}roll`:
                 if (msgContents.length > 1) {
                     if (msgContents[1].toLowerCase().match(/\b(\d+d\d+\+\d+)\b/)) {
                         var arr = msgContents[1].split(/[d\+]+/);
