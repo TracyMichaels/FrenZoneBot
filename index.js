@@ -111,7 +111,7 @@ client.on("message", msg => {
 
     if (!msg.content.startsWith(prefix)) return;
     try {
-        var num = 0;
+        
         var msgContents = msg.content.toLowerCase().trim().split(' ');
         switch (msgContents[0]) {
             //test***************************************************************************************************
@@ -150,28 +150,44 @@ client.on("message", msg => {
 
             //Band utilities***********************************************************************************************
             //roll a dice, can have parameter for number of sides, default is 6
+            // supports number of dice and modifiers use !dice (\\d+d)?\\d+(+\\d+)?)?\
             case `${prefix}dice`:
             case `${prefix}roll`:
+                var num = 0;
+                var arr;
+                var num_dice = 1;
+                var dice_sides = 6;
+                var dice_mod = 0;
+                var min;
+                var max;
                 if (msgContents.length > 1) {
                     if (msgContents[1].toLowerCase().match(/\b(\d+d\d+\+\d+)\b/)) {
-                        var arr = msgContents[1].split(/[d\+]+/);
-                        for (i = 0; i < parseInt(arr[0]); i++){
-                            num += rollDice(parseInt(arr[1]));
-                        }
-                        num += parseInt(arr[2]);
+                        arr = msgContents[1].split(/[d\+]+/);
+                        num_dice = parseInt(arr[0]);
+                        dice_sides = parseInt(arr[1]);
+                        dice_mod = parseInt(arr[2]);
+                        min = num_dice + dice_mod;
+                        max = (num_dice * dice_sides) + dice_mod;
+                        num = getRandomIntInclusive(min, max);
                     } else if (msgContents[1].toLowerCase().match(/\b(d?\d+\+\d+)\b/)) {
-                        var arr = msgContents[1].split(/[\+]+/);
-                        num = (rollDice(parseInt(arr[0]))) + parseInt(arr[1]);
+                        arr = msgContents[1].split(/[\+]+/);
+                        dice_sides = parseInt(arr[0]);
+                        dice_mod = parseInt(arr[1]);
+                        min = num_dice + dice_mod;
+                        max = (num_dice * dice_sides) + dice_mod;
+                        num = getRandomIntInclusive(min, max);
                     } else if (msgContents[1].toLowerCase().match(/\b(\d+d\d+)\b/)) {
-                        var arr = msgContents[1].split(/[d]+/);
-                        for (i = 0; i < parseInt(arr[0]); i++){
-                            num += rollDice(parseInt(arr[1]));
-                        }
+                        arr = msgContents[1].split(/[d]+/);
+                        num_dice = parseInt(arr[0]);
+                        dice_sides = parseInt(arr[1]);
+                        min = num_dice + dice_mod;
+                        max = (num_dice * dice_sides) + dice_mod;
+                        num = getRandomIntInclusive(min, max);
                     } else {
                         num = rollDice(parseInt(msgContents[1]));
                     }
                 } else {
-                    num = rollDice(6);
+                    num = rollDice(dice_sides);
                 }
                 if (!isNaN(num)) {
                     if (num === 1) {
