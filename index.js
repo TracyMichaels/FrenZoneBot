@@ -98,6 +98,9 @@ client.on("message", msg => {
         sarcasticThreshold = getRandomIntInclusive(sarcasticMIN, sarcasticMAX);
     }
 
+    // greets on mention
+    if (msg.mentions.has(client.user.id)) msg.channel.send(`hi :3`);
+
     //react randomly to a message with custom emoji
     if (reactionCounter === reactionThreshold) {
         try {
