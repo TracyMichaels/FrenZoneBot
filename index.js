@@ -78,6 +78,8 @@ client.on("message", msg => {
     if (msg.content.toLowerCase().match(/what time/)) msg.channel.send("8:36");
     // irc gold standard of the 90s
     if (msg.content.toLowerCase().match(/a\/?s\/?l/)) msg.channel.send("18/f/cali u?");
+    // love uuuuu
+    if (msg.content.toLowerCase().match(/i?\s*l[uo]+v+(e+)?\s*(y+)?(o+)?[au]+/)) msg.channel.send("Ｉ Lᵒᵛᵉᵧₒᵤ♡ too ( ๑ ᴖ ᴈ ᴖ)～♡");
 
 
     messageCounter++;
