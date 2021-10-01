@@ -156,6 +156,7 @@ client.on("message", msg => {
             //Band utilities***********************************************************************************************
             //roll a dice, can have parameter for number of sides, default is 6
             // supports number of dice and modifiers use !dice (\\d+d)?\\d+(+\\d+)?)?\
+            // TODO CLEANNNN and refactor and test too i guess
             case `${prefix}dice`:
             case `${prefix}roll`:
                 var num = 0;
@@ -166,7 +167,8 @@ client.on("message", msg => {
                 var min;
                 var max;
                 if (msgContents.length > 1) {
-                    if (msgContents[1].toLowerCase().match(/\b(\d+d\d+\+\d+)\b/)) {
+                    // nDn+n
+                    if (msgContents[1].toLowerCase().match(/\b(\d+d\d+\+-?\d+)\b/)) {
                         arr = msgContents[1].split(/[d\+]+/);
                         num_dice = parseInt(arr[0]);
                         dice_sides = parseInt(arr[1]);
@@ -174,13 +176,17 @@ client.on("message", msg => {
                         min = num_dice + dice_mod;
                         max = (num_dice * dice_sides) + dice_mod;
                         num = getRandomIntInclusive(min, max);
-                    } else if (msgContents[1].toLowerCase().match(/\b(d?\d+\+\d+)\b/)) {
+                    // n+n
+                    } else if (msgContents[1].toLowerCase().match(/\b(d?\d+\+-?\d+)\b/)) {
                         arr = msgContents[1].split(/[\+]+/);
+                        //testing
+                        //msg.channel.send(`${arr[0]}\n${arr[1]}`);
                         dice_sides = parseInt(arr[0]);
                         dice_mod = parseInt(arr[1]);
                         min = num_dice + dice_mod;
                         max = (num_dice * dice_sides) + dice_mod;
                         num = getRandomIntInclusive(min, max);
+                    // nDn
                     } else if (msgContents[1].toLowerCase().match(/\b(\d+d\d+)\b/)) {
                         arr = msgContents[1].split(/[d]+/);
                         num_dice = parseInt(arr[0]);
@@ -195,12 +201,18 @@ client.on("message", msg => {
                     num = rollDice(dice_sides);
                 }
                 if (!isNaN(num)) {
-                    if (num === 1) {
-                        msg.reply(`You rolled a ${num}, you really fuckin beefed it man`);;
+                    if (num <= 1) {
+                        msg.reply(`You rolled a ${num}, you really fuckin beefed it man`);
+                        //for testing 
+                        // msg.reply(`\n******IN TEST\nnum dice: ${num_dice}\ndice sides: ${dice_sides}\ndice mod: ${dice_mod}\nmin: ${min}\nmax: ${max}\nroll: ${num}`);
                     } else if (num === 69) {
                         msg.reply(`You rolled a ${num}, nice`);
+                        //for testing 
+                        // msg.reply(`\n******IN TEST\nnum dice: ${num_dice}\ndice sides: ${dice_sides}\ndice mod: ${dice_mod}\nmin: ${min}\nmax: ${max}\nroll: ${num}`);
                     } else {
                         msg.reply(`You rolled a ${num}`);
+                        //for testing 
+                        // msg.reply(`\n******IN TEST\nnum dice: ${num_dice}\ndice sides: ${dice_sides}\ndice mod: ${dice_mod}\nmin: ${min}\nmax: ${max}\nroll: ${num}`);
                     }
                     console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
                 } else {
