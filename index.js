@@ -60,7 +60,7 @@ client.on("message", msg => {
     // reaccts angry if someone says they/jake is allergic
     if (msg.content.toLowerCase().match(/(i[' a]*m|jake['s]*( is)?) allergic/) != null) msg.react(msg.guild.emojis.cache.find(emoji => emoji.name === "angery"));
     // reacts nicecock emoji to penis/benis
-    if (msg.content.toLowerCase().match(/(p|b)enis/)) msg.react(msg.guild.emojis.cache.find(emoji => emoji.name === "NiceCock"));
+    if (msg.content.toLowerCase().match(/(p|b)enis|\bpp\b|cock/)) msg.react(msg.guild.emojis.cache.find(emoji => emoji.name === "NiceCock"));
     // xkcd hyphen
     if (msg.content.toLowerCase().match(/\w+\d*-ass \w+\d*/)) msg.reply(`What's an ass-${msg.content.toLowerCase().match(/\w+-ass \w+/)[0].split(' ')[1]}?`);
     // reacts obama prism animated emoji on "obama"
