@@ -45,6 +45,9 @@ client.on("message", msg => {
     //ignore messages from bot
     if (msg.author.bot) return;
 
+
+
+
     //activity log
     try {
         console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag} sent a message to ${msg.channel.name}`);
@@ -77,9 +80,14 @@ client.on("message", msg => {
     // 836
     if (msg.content.toLowerCase().match(/what time/)) msg.channel.send("8:36");
     // irc gold standard of the 90s
-    if (msg.content.toLowerCase().match(/a\/?s\/?l/)) msg.channel.send("18/f/cali u?");
+    if (msg.content.toLowerCase().match(/\ba\/?s\/?l\b/)) msg.channel.send("18/f/cali u?");
     // love uuuuu
     if (msg.content.toLowerCase().match(/i?\s*l[uo]+v+(e+)?\s*(y+)?(o+)?[au]+/)) msg.channel.send("Ｉ Lᵒᵛᵉᵧₒᵤ♡ too ( ๑ ᴖ ᴈ ᴖ)～♡");
+
+
+
+
+
 
 
     messageCounter++;
@@ -114,11 +122,16 @@ client.on("message", msg => {
         reactionThreshold = getRandomIntInclusive(reactionMIN, reactionMAX);
     }
 
+
     if (!msg.content.startsWith(prefix)) return;
     try {
-        
-        var msgContents = msg.content.toLowerCase().trim().split(' ');
-        switch (msgContents[0]) {
+
+        // had to remove .toLowerCase() because of case sensitivity in one of the commands
+        // probably a better way to do this, than moving it to each comparison
+        var msgContents = msg.content.trim().split(' ');
+
+
+        switch (msgContents[0].toLowerCase()) {
             //test***************************************************************************************************
             case `${prefix}ping`:
                 msg.reply("stfu");
@@ -130,7 +143,7 @@ client.on("message", msg => {
             case `${prefix}music`:
                 try {
                     const serverQueue = musicQueue.get(msg.guild.id);
-                    switch (msgContents[1]) {
+                    switch (msgContents[1].toLowerCase()) {
                         case `play`:
                             console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
                             execute(msg, serverQueue);
@@ -153,7 +166,7 @@ client.on("message", msg => {
                 break;
             //end fun
 
-            //Band utilities***********************************************************************************************
+            //utilities***********************************************************************************************
             //roll a dice, can have parameter for number of sides, default is 6
             // supports number of dice and modifiers use !dice (\\d+d)?\\d+(+\\d+)?)?\
             // TODO CLEANNNN and refactor and test too i guess
@@ -176,7 +189,7 @@ client.on("message", msg => {
                         min = num_dice + dice_mod;
                         max = (num_dice * dice_sides) + dice_mod;
                         num = getRandomIntInclusive(min, max);
-                    // n+n
+                        // n+n
                     } else if (msgContents[1].toLowerCase().match(/\b(d?\d+\+-?\d+)\b/)) {
                         arr = msgContents[1].split(/[\+]+/);
                         //testing
@@ -186,7 +199,7 @@ client.on("message", msg => {
                         min = num_dice + dice_mod;
                         max = (num_dice * dice_sides) + dice_mod;
                         num = getRandomIntInclusive(min, max);
-                    // nDn
+                        // nDn
                     } else if (msgContents[1].toLowerCase().match(/\b(\d+d\d+)\b/)) {
                         arr = msgContents[1].split(/[d]+/);
                         num_dice = parseInt(arr[0]);
@@ -268,6 +281,27 @@ client.on("message", msg => {
                     }
                 }
                 break;
+            //calculator
+            case `${prefix}calc`:
+                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                if (msgContents.length > 1) {
+                    try {
+                        contents = msgContents.slice(1).join(' ');
+                        var result = eval(contents);
+                        msg.channel.send(`${result}`);
+                    } catch (e) {
+                        msg.channel.send("invalid parameter");
+                    }
+                } else {
+                    msg.channel.send("invalid parameter");
+                }
+                break;
+
+
+
+
+
+
             // end utilities
 
             //pastas********************************************************************************
