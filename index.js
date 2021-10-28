@@ -296,9 +296,12 @@ client.on("message", msg => {
                     msg.channel.send("invalid parameter");
                 }
                 break;
-
-
-
+            //create random hex color
+            case `${prefix}color`:
+                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                var color = '#' + Math.floor(Math.random() * 16777215).toString(16).toUpperCase();
+                msg.channel.send(`${color}`);
+                break;
 
 
 
