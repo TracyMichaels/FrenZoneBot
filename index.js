@@ -26,6 +26,7 @@ const emojiList = require('./emojiList.json');
 const cardList = require('./cards.json');
 const goodList = require('./goodbotemoticon.json');
 const badList = require('./badbot.json');
+const memegentemplates = require('./memegentemplates.json');
 const reactionMIN = 5;
 const reactionMAX = 15;
 const sarcasticMIN = 50;
@@ -192,8 +193,6 @@ client.on("message", msg => {
                         // n+n
                     } else if (msgContents[1].toLowerCase().match(/\b(d?\d+\+-?\d+)\b/)) {
                         arr = msgContents[1].split(/[\+]+/);
-                        //testing
-                        //msg.channel.send(`${arr[0]}\n${arr[1]}`);
                         dice_sides = parseInt(arr[0]);
                         dice_mod = parseInt(arr[1]);
                         min = num_dice + dice_mod;
@@ -216,16 +215,10 @@ client.on("message", msg => {
                 if (!isNaN(num)) {
                     if (num <= 1) {
                         msg.reply(`You rolled a ${num}, you really fuckin beefed it man`);
-                        //for testing 
-                        // msg.reply(`\n******IN TEST\nnum dice: ${num_dice}\ndice sides: ${dice_sides}\ndice mod: ${dice_mod}\nmin: ${min}\nmax: ${max}\nroll: ${num}`);
                     } else if (num === 69) {
                         msg.reply(`You rolled a ${num}, nice`);
-                        //for testing 
-                        // msg.reply(`\n******IN TEST\nnum dice: ${num_dice}\ndice sides: ${dice_sides}\ndice mod: ${dice_mod}\nmin: ${min}\nmax: ${max}\nroll: ${num}`);
                     } else {
                         msg.reply(`You rolled a ${num}`);
-                        //for testing 
-                        // msg.reply(`\n******IN TEST\nnum dice: ${num_dice}\ndice sides: ${dice_sides}\ndice mod: ${dice_mod}\nmin: ${min}\nmax: ${max}\nroll: ${num}`);
                     }
                     console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
                 } else {
@@ -303,8 +296,29 @@ client.on("message", msg => {
                 msg.channel.send(`${color}`);
                 break;
 
-
-
+            //memegen.link
+            case `${prefix}memegen`:
+            case `${prefix}meme`:
+                console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
+                if (msgContents.length > 1) {
+                    if (msgContents[1] === 'help') {
+                        msg.channel.send(`${fs.readFileSync('./memegenhelp.txt')}`);
+                        break;
+                    }
+                    if (msgContents[1] === 'templates') {
+                        if (msgContents[2] === 'deep') {
+                            msg.channel.send("Deep Templates", { files: ["./deep_memegentemplates.txt"] });
+                            break;
+                        }
+                        msg.channel.send("Templates(id=id, name=descriptor)", { files: ["./memegentemplates.txt"] });
+                        break;
+                    }
+                    var meme = msgContents.slice(1).join('/');
+                    msg.channel.send(`https://memegen.link/${meme}.png`);
+                } else {
+                    msg.channel.send("needs a parameter or 'help' for info on style parameters");
+                }
+                break;
             // end utilities
 
             //pastas********************************************************************************
@@ -369,6 +383,14 @@ client.on("message", msg => {
                 console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: ${msg.member.user.tag}: Executed ${msgContents[0]} command`);
                 msg.channel.send("k bye");
                 process.exit();
+                break;
+
+
+
+
+
+
+
         }
     } catch (e) {
         console.log(`${date.format(new Date(), 'YYYY/MM/DD HH:mm:ss')}:: failed to execute ${msgContents[0]}`);
