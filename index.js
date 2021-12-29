@@ -53,6 +53,8 @@ client.on('messageCreate', async msg => {
     if (msg.content.toLowerCase().match(/\ba\/?s\/?l\b/)) msg.channel.send("18/f/cali u?");
     // love uuuuu
     if (msg.content.toLowerCase().match(/i?\s*l[uo]+v+(e+)?\s*(y+)?(o+)?[au]+/)) msg.channel.send("Ｉ Lᵒᵛᵉᵧₒᵤ♡ too ( ๑ ᴖ ᴈ ᴖ)～♡");
+    // unflip table 
+    if (msg.content.match(/\(╯°□°\）╯︵ ┻━┻/)) msg.channel.send("┬─┬ ノ( ゜-゜ノ) bruh, chill ");
 
 });
 
