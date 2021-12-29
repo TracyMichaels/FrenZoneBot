@@ -3,4 +3,4 @@
 *.jpg
 .env
 /node_modules
-.gitiignore
+.gitignore
