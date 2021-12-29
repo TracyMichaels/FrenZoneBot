@@ -1,3 +1,6 @@
 *.txt
 *.json
 *.jpg
+.env
+/node_modules
+.gitiignore
