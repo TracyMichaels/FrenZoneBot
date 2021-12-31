@@ -28,24 +28,25 @@ module.exports = {
         var pastaName = interaction.options.getString('name');
         var pastaBody = interaction.options.getString('body');
 
+        // convert name to single lowercase word
+        pastaName = pastaName.toLowerCase().replace(' ', '');
+
         // Check if pasta name is valid
         if (pastaName.length > 25) {
             await interaction.reply({
-                cpntent: 'Pasta name is too long, must be > 25 characters',
+                cpntent: 'Pasta name is too long, must be < 25 characters',
                 ephemeral: true
             });
             return;
         }
 
         // Check if pasta name is already taken
-        var pastaNameLower = pastaName.toLowerCase();
         var pastaNameExists = false;
-        for (var i = 0; i < numPastas; i++) {
-            if (pastaNameLower == fs.readdirSync('./pastas')[i].replace('.txt', '').toLowerCase()) {
+        fs.readdirSync('./pastas').forEach(pasta => { 
+            if (pasta.replace('.txt', '').toLowerCase() === pastaName) {
                 pastaNameExists = true;
-                break;
             }
-        }
+        });
 
         if (pastaNameExists) {
             await interaction.reply({
@@ -56,11 +57,21 @@ module.exports = {
         }
 
         // Write pasta to file
-        fs.writeFileSync(`./pastas/${pastaNameLower}.txt`, pastaBody);
+        try {
+            fs.writeFileSync(`./pastas/${pastaName}.txt`, pastaBody);
+        } catch (err) {
+            console.error(err);
+            await interaction.reply({
+                content: 'Error writing pasta to file, action failed (common reasons: special characters in pasta name, pasta name is too long, pasta name is already taken)',
+                ephemeral: true
+            });
+            return;
+        }
 
         // Send response
+        var message = `Successfully created pasta, ${pastaName}! \nallow time for the bot to update its list of pastas before use`;
         await interaction.reply({
-            content: `Created pasta ${pastaNameLower}`,
+            content: message,
         });
     }
 };
