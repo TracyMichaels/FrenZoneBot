@@ -1,10 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-// defaults
-// var numDice = 1;
-// var numSides = 6;
-// var modifier = 0;
-
 // rolls a dice
 module.exports = {
     data: new SlashCommandBuilder()
