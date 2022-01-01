@@ -1,8 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const rhyme = require('rhyme');
 
-
-
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('rhyme')
@@ -23,7 +21,7 @@ module.exports = {
             var rhymes = r.rhyme(word).join(', ').toLowerCase();
             if (rhymes.length > 0) {                 
                 interaction.editReply({
-                    content: `input: ${word}\nrhymes: ${rhymes}`,
+                    content: `input: **${word}**\n\n__rhymes:__\n${rhymes}`,
                 });
             } else {
                 interaction.editReply("No rhymes found");
