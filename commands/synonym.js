@@ -14,15 +14,14 @@ module.exports = {
         const word = interaction.options.getString('word');
 
         await interaction.deferReply({
-            ephemeral: true,
+            ephemeral: false,
         });
 
         var nouns = synonyms(word, 'n');
         var verbs = synonyms(word, 'v');
 
-        var msgContents = `nouns: ${(nouns != undefined) ? nouns.join(', ') : '(undefined)'}
-                            \nverbs: ${(verbs != undefined) ? verbs.join(', ') : '(undefined)'}`;
-        
+        var msgContents = `input: **${word}**\n\n__Synonms:__\nnouns: ${(nouns != undefined) ? nouns.join(', ') : '(undefined)'}\nverbs: ${(verbs != undefined) ? verbs.join(', ') : '(undefined)'}`;
+
         await interaction.editReply(msgContents);
     }
 }

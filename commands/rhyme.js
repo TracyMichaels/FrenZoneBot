@@ -23,7 +23,7 @@ module.exports = {
             var rhymes = r.rhyme(word).join(', ').toLowerCase();
             if (rhymes.length > 0) {                 
                 interaction.editReply({
-                    content: rhymes,
+                    content: `input: ${word}\nrhymes: ${rhymes}`,
                 });
             } else {
                 interaction.editReply("No rhymes found");
