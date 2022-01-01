@@ -5,6 +5,12 @@ module.exports = {
         .setName('user-info')
         .setDescription('Display info about yourself.'),
     async execute(interaction) {
-        return interaction.reply(`Your username: ${interaction.user.username}\nYour ID: ${interaction.user.id}`);
+        await interaction.deferReply({
+            ephemeral: true,
+        });
+
+        // await new Promise(resolve => setTimeout(resolve, 10000));
+
+        return interaction.editReply(`Your username: ${interaction.user.username}\nYour ID: ${interaction.user.id}`);
     },
 };

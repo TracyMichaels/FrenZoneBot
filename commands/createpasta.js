@@ -16,7 +16,7 @@ module.exports = {
         .setDescription(`Create a copy pasta (${25 - numPastas} slots left)`)
         .addStringOption(option =>
             option.setName('name')
-                .setDescription('(WARNING: will be converted to a single lowercase word)')
+                .setDescription('(WARNING: will be converted to lowercase, no special characters)')
                 .setRequired(true)
         )
         .addStringOption(option =>
@@ -25,12 +25,17 @@ module.exports = {
                 .setRequired(true)
         ),
     async execute(interaction) {
+
         var pastaName = interaction.options.getString('name');
         var pastaBody = interaction.options.getString('body');
 
         // convert name to single lowercase word
-        pastaName = pastaName.toLowerCase().replace(' ', '');
+        pastaName = pastaName.toLowerCase();
 
+        await interaction.deferReply({
+            ephemeral: true,
+        });
+        
         // Check if pasta name is valid
         if (pastaName.length > 25) {
             await interaction.reply({
@@ -40,16 +45,17 @@ module.exports = {
             return;
         }
 
+
         // Check if pasta name is already taken
         var pastaNameExists = false;
-        fs.readdirSync('./pastas').forEach(pasta => { 
+        fs.readdirSync('./pastas').forEach(pasta => {
             if (pasta.replace('.txt', '').toLowerCase() === pastaName) {
                 pastaNameExists = true;
             }
         });
 
         if (pastaNameExists) {
-            await interaction.reply({
+            await interaction.editReply({
                 content: 'Pasta name is already taken',
                 ephemeral: true
             });
@@ -61,7 +67,7 @@ module.exports = {
             fs.writeFileSync(`./pastas/${pastaName}.txt`, pastaBody);
         } catch (err) {
             console.error(err);
-            await interaction.reply({
+            await interaction.editReply({
                 content: 'Error writing pasta to file, action failed (common reasons: special characters in pasta name, pasta name is too long, pasta name is already taken)',
                 ephemeral: true
             });
@@ -70,7 +76,7 @@ module.exports = {
 
         // Send response
         var message = `Successfully created pasta, ${pastaName}! \nallow time for the bot to update its list of pastas before use`;
-        await interaction.reply({
+        await interaction.editReply({
             content: message,
         });
     }

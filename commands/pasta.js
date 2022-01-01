@@ -29,6 +29,11 @@ module.exports = {
 
     async execute(interaction) {
         var pasta = interaction.options.getString('name');
-        await interaction.reply(`${fs.readFileSync(`./pastas/${pasta}.txt`)}`);
+
+        await interaction.deferReply({
+            ephemeral: true,
+        });
+        
+        await interaction.editReply(`${fs.readFileSync(`./pastas/${pasta}.txt`)}`);
     }
 }

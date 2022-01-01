@@ -18,6 +18,11 @@ module.exports = {
                 .setDescription('Modifier to add to the roll (Default: 0)')
         ),
     async execute(interaction) {
+
+        await interaction.deferReply({
+            ephemeral: true,
+        });
+
         // parse options
         const numDice = interaction.options.getInteger('numdice') || 1;
         const numSides = interaction.options.getInteger('sides') || 6;
@@ -33,6 +38,6 @@ module.exports = {
         total += modifier;
 
         // send result
-        await interaction.reply(`You rolled a ${total}!`);
+        await interaction.editReply(`You rolled a ${total}!`);
     }
 };
