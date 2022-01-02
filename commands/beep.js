@@ -6,7 +6,7 @@ module.exports = {
         .setDescription('Beep!'),
     async execute(interaction) {
         await interaction.deferReply({
-            ephemeral: true,
+            ephemeral: false,
         });
         return interaction.editReply('Boop!');
     },

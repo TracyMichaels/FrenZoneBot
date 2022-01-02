@@ -31,7 +31,7 @@ module.exports = {
         var pasta = interaction.options.getString('name');
 
         await interaction.deferReply({
-            ephemeral: true,
+            ephemeral: false,
         });
         
         await interaction.editReply(`${fs.readFileSync(`./pastas/${pasta}.txt`)}`);

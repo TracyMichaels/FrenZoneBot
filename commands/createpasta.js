@@ -33,7 +33,7 @@ module.exports = {
         pastaName = pastaName.toLowerCase();
 
         await interaction.deferReply({
-            ephemeral: true,
+            ephemeral: false,
         });
         
         // Check if pasta name is valid

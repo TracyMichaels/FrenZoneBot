@@ -6,7 +6,7 @@ module.exports = {
         .setDescription('Display info about yourself.'),
     async execute(interaction) {
         await interaction.deferReply({
-            ephemeral: true,
+            ephemeral: false,
         });
 
         // await new Promise(resolve => setTimeout(resolve, 10000));
