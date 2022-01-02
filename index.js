@@ -39,6 +39,24 @@ client.on('ready', () => {
     console.log('Bot online!');
 });
 
+// command handler
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isCommand()) return;
+
+    const command = client.commands.get(interaction.commandName);
+
+    if (!command) return;
+
+    try {
+        await command.execute(interaction);
+    } catch (error) {
+        console.error(error);
+        return interaction.editReply({
+            content: 'There was an error while executing this command!',
+            ephemeral: true
+        });
+    }
+});
 
 // on message
 client.on('messageCreate', async msg => {
@@ -111,23 +129,6 @@ client.on('messageCreate', async msg => {
 });
 
 
-// command handler
-client.on('interactionCreate', async interaction => {
-    if (!interaction.isCommand()) return;
 
-    const command = client.commands.get(interaction.commandName);
-
-    if (!command) return;
-
-    try {
-        await command.execute(interaction);
-    } catch (error) {
-        console.error(error);
-        return interaction.editReply({
-            content: 'There was an error while executing this command!',
-            ephemeral: true
-        });
-    }
-});
 
 client.login(token);
