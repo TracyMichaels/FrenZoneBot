@@ -1,20 +1,3 @@
-// const { SlashCommandBuilder } = require('@discordjs/builders');
-
-// module.exports = {
-//     data: new SlashCommandBuilder()
-//         .setName('user-info')
-//         .setDescription('Display info about yourself.'),
-//     async execute(interaction) {
-//         await interaction.deferReply({
-//             ephemeral: false,
-//         });
-
-//         // await new Promise(resolve => setTimeout(resolve, 10000));
-
-//         return interaction.editReply(`Your username: ${interaction.user.username}\nYour ID: ${interaction.user.id}\nYour avatar: ${interaction.user.avatarURL()}\nJoined: ${interaction.user.joinedAt}`);
-//     },
-// };
-
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require("discord.js")
 
@@ -38,7 +21,7 @@ module.exports = {
 
         const focusActivity = activities.find(x => x.assets)
         const embed = new MessageEmbed()
-            .setAuthor(member.user.tag, member.user.displayAvatarURL())
+            .setAuthor(member.user.tag, member.user.avatarURL())
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
             .setThumbnail(focusActivity ? `https://cdn.discordapp.com/app-assets/${focusActivity.applicationId}/${focusActivity.assets.largeImage}` : member.user.displayAvatarURL())
             .setDescription(activities.map((x, i) => `**${x.type}**: \`${x.name || "None"} : ${x.details || "None"} : ${x.state || "None"}\``).join("\n"))
