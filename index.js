@@ -15,8 +15,8 @@ const client = new Client({
 // data
 const sarcasticMIN = 50;
 const sarcasticMAX = 100;
-const reactionMIN = 5;
-const reactionMAX = 15;
+const reactionMIN = 1;
+const reactionMAX = 10;
 var messageCounter = 0;
 var reactionCounter = 0;
 //random number between sarcasticMIN and sarcasticMAX
@@ -42,11 +42,8 @@ client.on('ready', () => {
 // command handler
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
-
     const command = client.commands.get(interaction.commandName);
-
     if (!command) return;
-
     try {
         await command.execute(interaction);
     } catch (error) {
@@ -125,10 +122,6 @@ client.on('messageCreate', async msg => {
         reactionCounter = 0;
         reactionThreshold = Math.floor(Math.random() * (reactionMAX - reactionMIN + 1) + reactionMIN);
     }
-
 });
-
-
-
 
 client.login(token);
