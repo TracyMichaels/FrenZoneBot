@@ -25,8 +25,8 @@ module.exports = {
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
             .setThumbnail(focusActivity ? `https://cdn.discordapp.com/app-assets/${focusActivity.applicationId}/${focusActivity.assets.largeImage}` : member.user.displayAvatarURL())
             .setDescription(activities.map((x, i) => `**${x.type}**: \`${x.name || "None"} : ${x.details || "None"} : ${x.state || "None"}\``).join("\n"))
-            .addField("JoinedAt", member.joinedAt.toLocaleString(), true)
-            .addField("Account Created At", member.user.createdAt.toLocaleString(), true)
+            .addField("Joined: ", member.joinedAt.toLocaleString(), true)
+            .addField("Account Created: ", member.user.createdAt.toLocaleString(), true)
             .addField("Common Information", [
                 `Display Name: \`${member.displayName}\``,
                 `Pending Member: \`${member.pending ? 'Yes' : 'No'}\``,
